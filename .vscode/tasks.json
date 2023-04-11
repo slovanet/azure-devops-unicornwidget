@@ -1,0 +1,74 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "restore",
+            "type": "npm",
+            "script": "install",
+            "group": "build",
+            "presentation": {
+				"panel": "new"
+			},
+            "problemMatcher": []
+        },
+        {
+            "label": "build:DebugForVsix",
+            "type": "shell",
+            "windows": {
+                "command": ".\\node_modules\\.bin\\grunt"
+            },
+            "args": [
+                "--gruntfile",
+                "'gruntfile.js'",
+                "app-build:Vsix",
+                "--color"
+            ],
+            "presentation": {
+				"panel": "new"
+			},
+            "problemMatcher": []
+        },
+		{
+            "label": "vsix",
+            "type": "shell",
+			"dependsOn": ["build:DebugForVsix"]
+            "windows": {
+                "command": ".\\node_modules\\.bin\\tfx"
+            },
+            "args": [
+                "extension",
+                "create",
+				"--root",
+				"'wwwroot'",
+                "--manifest-globs",
+                "'vss-extension.json'",
+				"--output-path",
+				"'wwwroot'"
+            ],
+            
+            "presentation": {
+				"panel": "new"
+			},
+            "problemMatcher": []
+        },
+		{
+            "label": "build",
+            "type": "shell",
+			"dependsOn": ["vsix"]
+            "windows": {
+                "command": ".\\node_modules\\.bin\\grunt"
+            },
+            "args": [
+                "--gruntfile",
+                "'gruntfile.js'",
+                "app-clean",
+                "--color"
+            ],
+            "group": "build",
+            "presentation": {
+				"panel": "new"
+			},
+            "problemMatcher": []
+        }
+    ]
+}

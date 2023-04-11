@@ -1,0 +1,8 @@
+{
+	"files.exclude": {
+		".vscode": true,
+		"node_modules": true,
+		"js/libs": true,
+		"wwwroot": true
+	}
+}
